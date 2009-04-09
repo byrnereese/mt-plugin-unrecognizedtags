@@ -1,0 +1,16 @@
+<mt:setvar name="page_title" value="Unrecognized Tags">
+<$mt:setvar name="position_actions_bottom" value="1"$>
+
+<mt:include name="include/header.tmpl">
+
+<mt:loop name="tag_loop">
+<h2><mt:var name="tag"> (<mt:var name="count"> templates)</h2>
+<ul>
+<mt:loop name="tmpl_loop">
+<li><mt:var name="blog_name">: <a href="<mt:var name="script_url">?__mode=view&_type=template&blog_id=<mt:var name="blog_id">&id=<mt:var name="id">"><mt:var name="name"></a></li>
+</mt:loop>
+</ul>
+</mt:loop>
+
+<mt:include name="include/footer.tmpl">
+

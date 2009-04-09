@@ -1,0 +1,16 @@
+name: UnrecognizedTags
+id: UnrecognizedTags
+key: UnrecognizedTags
+version: 0.3
+description: Identify unrecognized tags in use in all templates system-wide
+applications:
+	cms:
+		methods:
+			unrecognized_tags: $UnrecognizedTags::UnrecognizedTags::CMS::unrecognized_tags
+		menus:
+			tools:unrecognized_tags:
+				label: Unrecognized Tags
+				order: 9000
+				mode: unrecognized_tags
+				view: system
+				system_permission: administer
