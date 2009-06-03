@@ -17,6 +17,7 @@ use MT::Util;
 
 sub unrecognized_tags {
 	my $app = shift;
+
 	require MT::Template;
 	require MT::Blog;
 	
@@ -24,44 +25,52 @@ sub unrecognized_tags {
 	my $tmpls = {};
 	my $blogs = {};
 	
-	my $iter = MT::Template->load_iter;
-	
+        my $iter;
+        if ($app->blog) {
+            $iter = MT::Template->load_iter( { blog_id => $app->blog->id } );
+        } else {
+            $iter = MT::Template->load_iter();
+        }	
 	while (my $tmpl = $iter->()) {
 		$tmpl->compile;
 		if ($tmpl->{errors} && @{$tmpl->{errors}}) {
 			#print "Errors in " . $tmpl->id . "'" . $tmpl->name . "' (" . $tmpl->blog_id . ")\n";
-			my @msgs = map { ($_->{message} =~ /unrecognized/) ? $_->{message} : () } @{$tmpl->{errors}};
+			my @msgs = map { ($_->{message} =~ /unrecognized/mi) ? $_->{message} : () } @{$tmpl->{errors}};
 			for my $msg (@msgs) {
-				$msg =~ /^<([^>]+)>/;
-				my $tag = $1;
-				$tags->{$tag} ||= {};
-				$tags->{$tag}->{$tmpl->id}++;
+			    my ($tag) = ($msg =~ /^<([^>]+)>/);
+			    $tags->{$tag} ||= {};
+			    $tags->{$tag}->{$tmpl->id}++;
 			}
 			$tmpls->{$tmpl->id} = $tmpl;
 			$blogs->{$tmpl->blog_id} ||= MT::Blog->load($tmpl->blog_id);
 		}
 	}
 	my @tag_loop = ();
+	my $tag_count;
 	for my $tag (sort keys %$tags) {
-		my @tmpl_loop = ();
-		for my $tmpl_id (keys %{$tags->{$tag}}) {
-			my $tmpl = $tmpls->{$tmpl_id};
+	    $tag_count++;
+	    my @tmpl_loop = ();
+	    for my $tmpl_id (keys %{$tags->{$tag}}) {
+		my $tmpl = $tmpls->{$tmpl_id};
 		
-			push(@tmpl_loop, {
-			     'name' => $tmpl->name,
-			     'id' => $tmpl->id,
-			     'blog_name' => ($tmpl->blog_id) ? $blogs->{$tmpl->blog_id}->name : "Global Templates",
-			     'blog_id' => $tmpl->blog_id,
-			     });
-		}
-		@tmpl_loop = sort { "$a->{'blog_name'}$a->{'name'}" cmp "$b->{'blog_name'}$b->{'name'}" } @tmpl_loop;
-		push(@tag_loop, {
-			'tag' => $tag,
-			'count' => scalar @tmpl_loop,
-			'tmpl_loop' => \@tmpl_loop,
-		});
+		push(@tmpl_loop, {
+		    'name' => $tmpl->name,
+		    'id' => $tmpl->id,
+		    'blog_name' => ($tmpl->blog_id) ? $blogs->{$tmpl->blog_id}->name : "Global Templates",
+		    'blog_id' => $tmpl->blog_id,
+		     });
+	    }
+	    @tmpl_loop = sort { "$a->{'blog_name'}$a->{'name'}" cmp "$b->{'blog_name'}$b->{'name'}" } @tmpl_loop;
+	    push(@tag_loop, {
+		'tag' => $tag,
+		'count' => scalar @tmpl_loop,
+		'tmpl_loop' => \@tmpl_loop,
+		 });
 	}
-	my $param = { 'tag_loop' => \@tag_loop };
+	my $param = { 
+	    'tag_count' => $tag_count,
+	    'tag_loop' => \@tag_loop,
+	};
 	$app->{component} = 'UnrecognizedTags';
 	return $app->build_page('results.tmpl', $param);
 }
