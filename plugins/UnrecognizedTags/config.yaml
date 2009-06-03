@@ -12,5 +12,4 @@ applications:
 				label: Unrecognized Tags
 				order: 9000
 				mode: unrecognized_tags
-				view: system
 				system_permission: administer
