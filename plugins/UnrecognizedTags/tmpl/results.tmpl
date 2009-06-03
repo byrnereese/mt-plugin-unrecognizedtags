@@ -4,6 +4,7 @@
 <mt:include name="include/header.tmpl">
 
 <mt:if name="tag_count" gt="0">
+<p>A total of <mt:var name="instance_count"> instances of <mt:var name="tag_count"> unrecognized tags were found. They are:</p>
 <mt:loop name="tag_loop">
 <h2><mt:var name="tag"> (<mt:var name="count"> templates)</h2>
 <ul>

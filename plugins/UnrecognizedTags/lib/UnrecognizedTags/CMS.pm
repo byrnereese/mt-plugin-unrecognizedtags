@@ -47,10 +47,12 @@ sub unrecognized_tags {
 	}
 	my @tag_loop = ();
 	my $tag_count;
+	my $instance_count;
 	for my $tag (sort keys %$tags) {
 	    $tag_count++;
 	    my @tmpl_loop = ();
 	    for my $tmpl_id (keys %{$tags->{$tag}}) {
+		$instance_count++;
 		my $tmpl = $tmpls->{$tmpl_id};
 		
 		push(@tmpl_loop, {
@@ -69,6 +71,7 @@ sub unrecognized_tags {
 	}
 	my $param = { 
 	    'tag_count' => $tag_count,
+	    'instance_count' => $instance_count,
 	    'tag_loop' => \@tag_loop,
 	};
 	$app->{component} = 'UnrecognizedTags';
