@@ -3,6 +3,7 @@
 
 <mt:include name="include/header.tmpl">
 
+<mt:if name="tag_count" gt="0">
 <mt:loop name="tag_loop">
 <h2><mt:var name="tag"> (<mt:var name="count"> templates)</h2>
 <ul>
@@ -11,6 +12,9 @@
 </mt:loop>
 </ul>
 </mt:loop>
+<mt:else>
+<p>No unrecognized template tags could be found.</p>
+</mt:if>
 
 <mt:include name="include/footer.tmpl">
 
