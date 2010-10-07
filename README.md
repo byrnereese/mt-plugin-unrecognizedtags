@@ -1,6 +1,6 @@
 # Unrecognized Tags
 
-The UnrecognizedTags plugin is a tool for identifying all tags in use across
+The Unrecognized Tags plugin is a tool for identifying all tags in use across
 all templates system-wide that Movable Type does not recognize.
 
 ## Overview
