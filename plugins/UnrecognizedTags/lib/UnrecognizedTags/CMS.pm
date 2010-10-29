@@ -13,6 +13,7 @@
 package UnrecognizedTags::CMS;
 
 use strict;
+use warnings;
 use MT::Util;
 
 sub unrecognized_tags {
