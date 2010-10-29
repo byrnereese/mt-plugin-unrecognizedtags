@@ -1,4 +1,4 @@
-# Unrecognized Tags
+# Unrecognized Tags plugin
 
 The Unrecognized Tags plugin is a tool for identifying all tags in use across
 all templates system-wide that Movable Type does not recognize.
@@ -19,7 +19,7 @@ The default behavior of Movable Type is to throw an error message when it
 encounters an unrecognized tag during the course of a rebuild or when a
 template is edited. This means that in order to identify all such tags it is
 necessary to open edit and save every template or to repeatedly rebuild. Then
-each unrecognized tag must be resolved by hand or wrapped in <mt:Ignore>
+each unrecognized tag must be resolved by hand or wrapped in `<mt:Ignore>`
 before trying to rebuild again.
 
 UnrecognizedTags is intended to simplify this process. It can be especially
