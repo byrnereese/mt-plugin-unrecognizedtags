@@ -1,7 +1,7 @@
 name: Unrecognized Tags
 id: UnrecognizedTags
 key: UnrecognizedTags
-version: 0.5
+version: 0.6
 description: Identify unrecognized tags in use in all templates system-wide.
 applications:
     cms:
